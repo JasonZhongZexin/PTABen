@@ -1,7 +1,5 @@
 root=$(cd "$(dirname "$0")";pwd)
 sysOS=`uname -s`
-export CMAKE_C_COMPILER="../LLVM_source/bin/clang-10"
-export CMAKE_CXX_COMPILER="../LLVM_source/bin/clang-10"
 #check wether the test case bc folder exist 
 if [ -d 'test_cases_bc' ] ; then
     echo "folder exists!"
@@ -33,8 +31,6 @@ for filename in $files;do
 	    echo $file_path"/"$filename
 	if [ $sysOS == "linux" ] ; then
         clang -c -iquote $bc_path -emit-llvm $file_path"/"$filename -o $bc_path$filename".bc" -Wno-everything
-    elif [ $sysOS == "Darwin" ] ; then
-        clang -c -iquote $bc_path -emit-llvm $file_path"/"$filename -o $bc_path$filename".bc" -Wno-everything -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1
     fi
 		opt -mem2reg $bc_path$filename".bc" -o $bc_path$filename".bc"
 	fi
